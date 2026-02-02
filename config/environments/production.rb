@@ -6,11 +6,17 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
-  # Eager load code on boot. This eager loads most of Rails and
-  # your application in memory, allowing both threaded web servers
-  # and those relying on copy on write to perform better.
-  # Rake tasks automatically ignore this option for performance.
-  config.eager_load = true
+  # Eager load code on boot.
+  #
+  # Render builds the Docker image in an environment that does not have access
+  # to the runtime database. During `assets:precompile`, eager loading can
+  # trigger Active Record to connect to the database to load schema metadata.
+  # Allow overriding eager loading via env for build-time tasks.
+  config.eager_load = if ENV.key?("RAILS_EAGER_LOAD")
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch("RAILS_EAGER_LOAD"))
+  else
+    true
+  end
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false

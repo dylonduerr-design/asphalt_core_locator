@@ -35,8 +35,11 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY.
+# The Docker image build environment does not have access to the runtime DB,
+# so disable eager loading during this step to avoid Active Record trying to
+# connect to Postgres while compiling assets.
+RUN SECRET_KEY_BASE_DUMMY=1 RAILS_EAGER_LOAD=0 ./bin/rails assets:precompile
 
 
 # Final stage for app image
