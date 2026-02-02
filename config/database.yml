@@ -79,6 +79,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   database: asphalt_core_locater_production
   username: asphalt_core_locater
   password: <%= ENV["ASPHALT_CORE_LOCATER_DATABASE_PASSWORD"] %>

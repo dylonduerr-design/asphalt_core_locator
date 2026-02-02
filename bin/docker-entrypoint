@@ -1,8 +1,17 @@
 #!/bin/bash -e
 
 # If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
-fi
+case "${1:-}" in
+  ./bin/rails)
+    if [ "${2:-}" = "server" ]; then
+      ./bin/rails db:prepare
+    fi
+    ;;
+  bundle)
+    if [ "${2:-}" = "exec" ] && [ "${3:-}" = "puma" ]; then
+      ./bin/rails db:prepare
+    fi
+    ;;
+esac
 
 exec "${@}"

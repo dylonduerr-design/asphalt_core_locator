@@ -9,6 +9,8 @@ WORKDIR /rails
 
 # Set production environment
 ENV RAILS_ENV="production" \
+    RAILS_LOG_TO_STDOUT="1" \
+    RAILS_SERVE_STATIC_FILES="1" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
@@ -59,4 +61,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
