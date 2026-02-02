@@ -8,6 +8,8 @@ Lot.destroy_all
 # Create a sample lot matching the CSV data
 lot = Lot.create!(
   lot_number: "6",
+  plant: "PLANT 1",
+  mix_type: "P-401",
   contractor: "Shamrock Paving",
   mix_design: "P-401",
   pg: "PG 64H-28",
@@ -15,9 +17,46 @@ lot = Lot.create!(
   paving_date: Date.new(2023, 9, 18)
 )
 
-puts "Created Lot #{lot.lot_number}"
+puts "Created Lot #{lot.lot_number} (PLANT 1, P-401)"
 
-# Create sublots with lanes matching the CSV
+# Create additional lots for PLANT 2 and other mix types
+lot2 = Lot.create!(
+  lot_number: "7",
+  plant: "PLANT 2",
+  mix_type: "P-403",
+  contractor: "Shamrock Paving",
+  mix_design: "P-403",
+  pg: "PG 64H-28",
+  description: "Phase 1B",
+  paving_date: Date.new(2023, 9, 20)
+)
+puts "Created Lot #{lot2.lot_number} (PLANT 2, P-403)"
+
+lot3 = Lot.create!(
+  lot_number: "8",
+  plant: "PLANT 1",
+  mix_type: "PG 64-10",
+  contractor: "Shamrock Paving",
+  mix_design: "PG 64-10",
+  pg: "PG 64-10",
+  description: "Phase 2A",
+  paving_date: Date.new(2023, 9, 22)
+)
+puts "Created Lot #{lot3.lot_number} (PLANT 1, PG 64-10)"
+
+lot4 = Lot.create!(
+  lot_number: "9",
+  plant: "PLANT 2",
+  mix_type: "P-401",
+  contractor: "Shamrock Paving",
+  mix_design: "P-401",
+  pg: "PG 64H-28",
+  description: "Phase 2B",
+  paving_date: Date.new(2023, 9, 25)
+)
+puts "Created Lot #{lot4.lot_number} (PLANT 2, P-401)"
+
+# Create sublots with lanes matching the CSV (for the first lot)
 sublot_data = [
   { position: 1, lanes: [
     { position: 1, name: "Lane 1", length_ft: 50, width_ft: 13 },
