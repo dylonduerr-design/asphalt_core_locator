@@ -1,0 +1,24 @@
+<div class="max-w-2xl mx-auto px-4 py-6">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">Add Lane</h1>
+
+  <% if defined?(@sublot) && @sublot.present? %>
+    <p class="text-sm text-gray-600 mb-6">
+      Lot #<%= @sublot.lot&.lot_number %> · Sublot <%= @sublot.position %>
+      <% if defined?(@next_position) && @next_position.present? %>
+        · Creating Lane <%= @next_position %>
+      <% end %>
+    </p>
+  <% else %>
+    <p class="text-sm text-gray-600 mb-6">Choose lane dimensions.</p>
+  <% end %>
+
+  <%= render "form", lane: @lane, sublot: (defined?(@sublot) ? @sublot : nil) %>
+
+  <div class="mt-6">
+    <% if defined?(@sublot) && @sublot&.lot.present? %>
+      <%= link_to " Back to Lot", lot_path(@sublot.lot), class: "text-sm text-gray-600 hover:text-gray-900" %>
+    <% else %>
+      <%= link_to " Back", lanes_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+    <% end %>
+  </div>
+</div>

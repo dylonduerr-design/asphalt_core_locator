@@ -1,0 +1,200 @@
+<div class="max-w-7xl mx-auto" data-controller="lane-modal">
+  <div class="mb-6 flex justify-between items-center">
+    <%= link_to "← Back to Lots", lots_path, class: "text-gray-500 hover:text-gray-700 font-medium" %>
+    <div class="flex space-x-3">
+        <%= link_to "Edit", edit_lot_path(@lot), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+        <%= button_to "Delete", @lot, method: :delete, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 cursor-pointer", form_class: "inline-block" %>
+    </div>
+  </div>
+
+  <% if @lot.plant.present? && @lot.mix_type.present? %>
+    <% color_classes = @lot.mix_color_classes %>
+    <div class="<%= color_classes[:bg] %> border-l-4 <%= color_classes[:border] %> rounded-r-lg shadow-sm p-4 mb-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div>
+            <span class="text-xs font-semibold <%= color_classes[:text] %> uppercase tracking-wider">Plant</span>
+            <p class="text-lg font-bold text-gray-900"><%= @lot.plant %></p>
+          </div>
+          <div class="border-l-2 border-gray-300 h-12"></div>
+          <div>
+            <span class="text-xs font-semibold <%= color_classes[:text] %> uppercase tracking-wider">Mix Type</span>
+            <p class="text-lg font-bold text-gray-900"><%= @lot.mix_type %></p>
+          </div>
+          <div class="border-l-2 border-gray-300 h-12"></div>
+          <div>
+            <span class="text-xs font-semibold <%= color_classes[:text] %> uppercase tracking-wider">Lot Number</span>
+            <p class="text-lg font-bold text-gray-900">#<%= @lot.lot_number %></p>
+          </div>
+        </div>
+        <span class="<%= color_classes[:badge] %> px-3 py-1 rounded-full text-sm font-medium">
+          <%= @lot.mix_type %>
+        </span>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Lot Details -->
+  <details class="bg-white shadow sm:rounded-lg overflow-hidden mb-8 group">
+    <summary class="px-4 py-3 sm:px-6 border-b border-gray-200 cursor-pointer hover:bg-gray-50 flex items-center justify-between list-none">
+      <h3 class="text-sm leading-6 font-medium text-gray-900">Lot Details</h3>
+      <svg class="h-5 w-5 text-gray-400 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </summary>
+    <div class="border-t border-gray-200">
+      <dl class="text-sm">
+        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">Contractor</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.contractor.presence || "-" %></dd>
+        </div>
+        <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">Mix Design</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.mix_design.presence || "-" %></dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">PG</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.pg.presence || "-" %></dd>
+        </div>
+        <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">Description</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.description.presence || "-" %></dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">Paving Date</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.paving_date ? @lot.paving_date.strftime("%B %d, %Y") : "-" %></dd>
+        </div>
+        <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="font-medium text-gray-500">Created At</dt>
+          <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2"><%= @lot.created_at.strftime("%B %d, %Y %H:%M") %></dd>
+        </div>
+      </dl>
+    </div>
+  </details>
+
+  <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Sublots & Lanes</h3>
+        <div class="flex items-center gap-3">
+            <% if @lot.sublots.any? %>
+                <%= link_to "Generate Core Locations", new_lot_core_generation_path(@lot), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" %>
+                <% if @lot.core_generations.any? %>
+                    <%= link_to "View Last Generation", lot_core_generation_path(@lot, @lot.core_generations.order(created_at: :desc).first), class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+                <% end %>
+            <% end %>
+            <%= link_to "Add Sublots", new_lot_bulk_setup_path(@lot), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200" %>
+        </div>
+    </div>
+    
+    <div class="divide-y divide-gray-200">
+      <% if @lot.sublots.any? %>
+        <% @lot.sublots.order(:position).includes(:lanes).each do |sublot| %>
+            <div class="p-4 sm:p-6 hover:bg-gray-50 transition">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-md font-bold text-gray-900 flex items-center">
+                        <span class="bg-gray-200 text-gray-600 rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm">
+                            <%= sublot.position %>
+                        </span>
+                        Sublot <%= sublot.position %>
+                    </h4>
+                    <div class="flex items-center gap-3">
+                        <% if sublot.locked_for_core_generation %>
+                            <span class="inline-flex items-center px-2 py-1 rounded-md bg-red-100 text-red-500" title="This sublot is locked">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        <% else %>
+                            <span class="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 text-gray-400" title="This sublot is unlocked">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 116 0v2h2V7a5 5 0 00-5-5z" />
+                                </svg>
+                            </span>
+                        <% end %>
+                        <% if sublot.lanes.any? %>
+                            <%= link_to "Generate Cores", new_lot_core_generation_path(@lot, sublot_id: sublot.id), class: "inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+                        <% end %>
+                    </div>
+                </div>
+                
+                <% if sublot.lanes.any? %>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pl-11">
+                        <% sublot.lanes.order(:position).each do |lane| %>
+                            <div class="bg-white rounded p-3 border border-gray-200 shadow-sm lane-card relative" data-lane-id="<%= lane.id %>">
+                                <%= button_to lane_path(lane),
+                                  method: :delete,
+                                  form: { data: { turbo_confirm: "Remove this lane?" }, style: "position:absolute; top:0.5rem; right:0.5rem; z-index:20;" },
+                                  class: "lane-delete-btn",
+                                  title: "Remove lane" do %>
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                  </svg>
+                                <% end %>
+                                <div class="font-medium text-sm text-gray-700 mb-1">Lane <%= lane.position %></div>
+                                <div class="text-xs text-gray-500 grid grid-cols-2 gap-x-2">
+                                    <span>Width:</span> <span class="text-gray-900 font-medium"><%= lane.width_ft %> ft</span>
+                                    <span>Length:</span> <span class="text-gray-900 font-medium"><%= lane.length_ft %> ft</span>
+                                </div>
+                            </div>
+                        <% end %>
+                        <div class="flex items-center justify-center">
+                          <%= link_to new_lane_path(lane: { sublot_id: sublot.id }),
+                            data: { action: "click->lane-modal#open", lane_modal_sublot_id_param: sublot.id },
+                            class: "add-lane-tile",
+                            style: "min-height: 100px;" do %>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="add-lane-icon" fill="none" viewBox="0 0 24 24" stroke="#9333ea" stroke-width="3">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span class="add-lane-label">Add Lane</span>
+                          <% end %>
+                        </div>
+                    </div>
+                <% else %>
+                    <div class="pl-11 flex items-center gap-4">
+                      <p class="text-sm text-gray-500 italic">No lanes defined for this sublot.</p>
+                      <%= link_to "Add Lane", new_lane_path(lane: { sublot_id: sublot.id }),
+                        data: { action: "click->lane-modal#open", lane_modal_sublot_id_param: sublot.id },
+                        class: "inline-flex items-center px-3 py-1.5 border border-indigo-500 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+      <% else %>
+         <div class="p-6 text-center text-gray-500 text-sm">
+            No sublots or lanes have been added yet. Use the Bulk Setup button to add them.
+         </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Add Lane Modal -->
+  <div id="addLaneModal" data-lane-modal-target="modal" data-action="click->lane-modal#backdropClose" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900">Add Lane</h3>
+      </div>
+      <%= form_with url: lanes_path, scope: :lane, method: :post, local: true, id: "addLaneForm", data: { lane_modal_target: "form" } do |f| %>
+        <div class="px-6 py-4 space-y-4">
+          <%= f.hidden_field :sublot_id, id: "modal_sublot_id", data: { lane_modal_target: "sublotId" } %>
+          
+          <div>
+            <label for="lane_length_ft" class="block text-sm font-medium text-gray-700">Length (ft)</label>
+            <%= f.number_field :length_ft, step: 0.5, min: 0, class: "mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true %>
+          </div>
+          
+          <div>
+            <label for="lane_width_ft" class="block text-sm font-medium text-gray-700">Width (ft)</label>
+            <%= f.number_field :width_ft, step: 0.5, min: 0, class: "mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", required: true %>
+          </div>
+        </div>
+        
+        <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
+          <button type="button" data-action="click->lane-modal#close" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            Cancel
+          </button>
+          <%= f.submit "Add Lane", class: "px-4 py-2 border border-indigo-500 rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+

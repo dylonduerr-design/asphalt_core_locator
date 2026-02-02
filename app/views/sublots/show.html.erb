@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @sublot %>
+
+<div>
+  <%= link_to "Edit this sublot", edit_sublot_path(@sublot) %> |
+  <%= link_to "Back to sublots", sublots_path %>
+
+  <%= button_to "Destroy this sublot", @sublot, method: :delete %>
+</div>

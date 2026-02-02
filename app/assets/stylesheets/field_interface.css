@@ -1,0 +1,436 @@
+/* Field Interface Styles - Mobile-First Design */
+
+:root {
+  --primary-dark: #1a1a2e;
+  --plant-1-green: #2ecc71;
+  --plant-1-dark: #27ae60;
+  --plant-2-blue: #3498db;
+  --plant-2-dark: #2980b9;
+  --bg-color: #f4f6f8;
+  --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* App Container */
+.app-container {
+  min-height: calc(100vh - 64px); /* Account for header */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  padding: 20px;
+  gap: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 80px; /* Make room for drawer */
+}
+
+/* === Zone A: Status Card === */
+.status-card {
+  background: white;
+  border-left: 6px solid var(--primary-dark);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-header .label {
+  color: #888;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.card-header .badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.card-body {
+  flex: 1;
+}
+
+.card-body.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.lot-number {
+  font-size: 2.5rem;
+  margin: 0 0 16px 0;
+  color: var(--primary-dark);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.lot-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.detail-item {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #888;
+  margin-right: 8px;
+}
+
+.detail-value {
+  color: var(--primary-dark);
+}
+
+.view-link {
+  display: inline-flex;
+  align-items: center;
+  color: #3498db;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.view-link:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Empty State */
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state-icon .icon {
+  width: 40px;
+  height: 40px;
+  color: #999;
+}
+
+.empty-title {
+  font-size: 2rem;
+  margin: 0 0 8px 0;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.empty-subtitle {
+  font-size: 1rem;
+  color: #888;
+  margin: 0;
+}
+
+/* === Zone B: Action Deck === */
+.action-deck {
+  flex-shrink: 0;
+}
+
+.action-deck .label-text {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 16px;
+  display: block;
+  font-size: 1rem;
+}
+
+.button-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.plant-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 36px 20px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  min-height: 140px;
+  font-family: inherit;
+}
+
+.plant-btn:active {
+  transform: scale(0.96);
+}
+
+.plant-btn:hover {
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+.plant-1 {
+  background: linear-gradient(135deg, var(--plant-1-green), var(--plant-1-dark));
+}
+
+.plant-2 {
+  background: linear-gradient(135deg, var(--plant-2-blue), var(--plant-2-dark));
+}
+
+.btn-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.btn-sub {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  display: block;
+}
+
+/* Mix Selection Overlay */
+.mix-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mix-overlay.hidden {
+  display: none;
+}
+
+.mix-panel {
+  background: white;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.mix-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mix-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: #f0f0f0;
+}
+
+.close-btn .icon {
+  width: 24px;
+  height: 24px;
+  color: #666;
+}
+
+.mix-buttons {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mix-btn {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.mix-btn:active {
+  transform: scale(0.98);
+}
+
+.mix-btn:hover {
+  opacity: 0.9;
+}
+
+.mix-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.mix-name {
+  font-size: 1.1rem;
+}
+
+/* === Zone C: History Drawer === */
+.history-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  transition: height 0.3s ease;
+  height: 70px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.history-drawer.expanded {
+  height: 200px;
+}
+
+.drawer-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin: 12px auto 0;
+  cursor: pointer;
+}
+
+.drawer-header {
+  padding: 8px 20px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.drawer-header h3 {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.drawer-header .chevron {
+  width: 20px;
+  height: 20px;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+
+.drawer-content {
+  padding: 0 20px 20px;
+}
+
+.drawer-link {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.link-primary {
+  color: #3498db;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-primary:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 16px;
+    padding-bottom: 80px;
+  }
+
+  .lot-number {
+    font-size: 2rem;
+  }
+
+  .button-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plant-btn {
+    min-height: 120px;
+    padding: 30px 20px;
+  }
+
+  .btn-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: 32px;
+    padding-bottom: 100px;
+  }
+
+  .status-card {
+    min-height: 180px;
+  }
+}
+
+/* Icon utility */
+.icon {
+  flex-shrink: 0;
+}

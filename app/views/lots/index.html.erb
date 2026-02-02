@@ -1,0 +1,115 @@
+<div class="app-container" data-controller="plant-selector">
+  <!-- Zone A: Status Card (Workspace) -->
+  <section class="status-card">
+    <% if @current_lot %>
+      <div class="card-header">
+        <span class="label">Current Lot</span>
+        <span class="badge <%= @current_lot.mix_color_classes[:badge] %> <%= @current_lot.mix_color_classes[:text] %>">
+          <%= @current_lot.mix_type %>
+        </span>
+      </div>
+      <div class="card-body">
+        <h2 class="lot-number"><%= @current_lot.lot_number %></h2>
+        <div class="lot-details">
+          <p class="detail-item">
+            <span class="detail-label">Plant:</span>
+            <span class="detail-value"><%= @current_lot.plant %></span>
+          </p>
+          <% if @current_lot.paving_date %>
+            <p class="detail-item">
+              <span class="detail-label">Paving Date:</span>
+              <span class="detail-value"><%= @current_lot.paving_date.strftime("%b %d, %Y") %></span>
+            </p>
+          <% end %>
+          <p class="detail-item">
+            <span class="detail-label">Sublots:</span>
+            <span class="detail-value"><%= @current_lot.sublots.count %></span>
+          </p>
+        </div>
+        <%= link_to "View Details →", @current_lot, class: "view-link" %>
+      </div>
+    <% else %>
+      <div class="card-body centered">
+        <div class="empty-state-icon">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <h2 class="empty-title">Start New Lot</h2>
+        <p class="empty-subtitle">Select a plant below to begin</p>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Zone B: Action Deck (Control Buttons) -->
+  <section class="action-deck">
+    <div class="label-text">Select Source Plant</div>
+    <div class="button-grid">
+      <% Lot::PLANTS.each_with_index do |plant, index| %>
+        <button 
+          type="button"
+          data-action="click->plant-selector#togglePlant"
+          data-plant="<%= plant %>"
+          class="plant-btn plant-<%= index + 1 %>"
+        >
+          <span class="btn-title"><%= plant %></span>
+          <span class="btn-sub">Create New Lot</span>
+        </button>
+      <% end %>
+    </div>
+
+    <!-- Mix Selection Overlay (Hidden by default) -->
+    <div data-plant-selector-target="mixOverlay" class="mix-overlay hidden">
+      <div class="mix-panel">
+        <div class="mix-header">
+          <h3 data-plant-selector-target="selectedPlant">Select Mix Type</h3>
+          <button 
+            type="button"
+            data-action="click->plant-selector#closeMix"
+            class="close-btn"
+          >
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="mix-buttons">
+          <% Lot::MIX_TYPES.each do |mix_type| %>
+            <%= button_to quick_create_lots_path, 
+                method: :post, 
+                params: { plant: '', mix_type: mix_type },
+                data: { plant_selector_target: "mixBtn", mix_type: mix_type },
+                class: "mix-btn mix-#{mix_type.downcase.gsub(' ', '-').gsub(/[^a-z0-9-]/, '')} #{Lot::MIX_COLORS[mix_type][:bg]} #{Lot::MIX_COLORS[mix_type][:text]} #{Lot::MIX_COLORS[mix_type][:border]}" do %>
+              <span class="mix-name"><%= mix_type %></span>
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zone C: History Drawer (Bottom) -->
+  <footer class="history-drawer" data-plant-selector-target="drawer">
+    <div 
+      class="drawer-handle"
+      data-action="click->plant-selector#toggleDrawer"
+    ></div>
+    <div 
+      class="drawer-header"
+      data-action="click->plant-selector#toggleDrawer"
+    >
+      <h3>All Lots History</h3>
+      <svg class="chevron" data-plant-selector-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </div>
+    <div class="drawer-content" data-plant-selector-target="drawerContent">
+      <p class="drawer-link">
+        <%= link_to "View All Lots →", all_lots_path, class: "link-primary" %>
+      </p>
+    </div>
+  </footer>
+</div>

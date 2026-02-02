@@ -1,0 +1,41 @@
+<div class="w-full">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+    <div>
+      <h1 class="font-bold text-3xl text-gray-800">
+        <% if @selected_plant.present? && @selected_mix.present? %>
+          <%= @selected_plant %> - <%= @selected_mix %>
+        <% elsif @selected_plant.present? %>
+          <%= @selected_plant %>
+        <% elsif @selected_mix.present? %>
+          <%= @selected_mix %>
+        <% else %>
+          All Lots
+        <% end %>
+      </h1>
+      <p class="text-sm text-gray-500 mt-1">
+        <%= link_to "← Back to dashboard", lots_path, class: "text-blue-600 hover:text-blue-500" %>
+      </p>
+    </div>
+    <%= link_to "New Lot", new_lot_path, class: "inline-flex items-center justify-center rounded-lg py-3 px-5 bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm" %>
+  </div>
+
+  <% if @lots.any? %>
+    <div id="lots" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <%= render @lots %>
+    </div>
+  <% else %>
+    <div class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No lots found</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        <% if @selected_plant.present? || @selected_mix.present? %>
+          No lots found for this filter.
+        <% else %>
+          Get started by creating a new asphalt lot.
+        <% end %>
+      </p>
+      <div class="mt-6">
+        <%= link_to "New Lot", new_lot_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+      </div>
+    </div>
+  <% end %>
+</div>

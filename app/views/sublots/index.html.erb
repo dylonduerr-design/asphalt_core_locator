@@ -1,0 +1,41 @@
+<div class="max-w-7xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="font-bold text-3xl text-gray-800">Sublots</h1>
+  </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sublot #</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lot</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lanes</th>
+          <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @sublots.each do |sublot| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Sublot <%= sublot.position %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <% if sublot.lot %>
+                    <%= link_to "Lot ##{sublot.lot.lot_number}", sublot.lot, class: "text-indigo-600 hover:text-indigo-900" %>
+                <% else %>
+                    <span class="text-gray-400">N/A</span>
+                <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                 <%= sublot.lanes.count %> Lanes
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <%= link_to "Show", sublot, class: "text-indigo-600 hover:text-indigo-900" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+     <% if @sublots.empty? %>
+        <div class="text-center py-6 text-gray-500 text-sm">No sublots found.</div>
+     <% end %>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sublot: one
+  position: 1
+  name: MyString
+  length_ft: 9.99
+  width_ft: 9.99
+
+two:
+  sublot: two
+  position: 1
+  name: MyString
+  length_ft: 9.99
+  width_ft: 9.99

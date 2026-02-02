@@ -1,0 +1,91 @@
+<div class="max-w-2xl mx-auto">
+  <div class="md:flex md:items-center md:justify-between mb-6">
+    <div class="min-w-0 flex-1">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Generate Core Locations</h2>
+      <p class="mt-1 text-sm text-gray-500">
+          For Lot <strong><%= @lot.lot_number %></strong>
+          <% if @lot.description.present? %>
+            <span class="text-gray-400 mx-2">|</span> <%= @lot.description %>
+          <% end %>
+      </p>
+    </div>
+  </div>
+
+  <%= form_with model: [@lot, @core_generation], class: "space-y-6" do |form| %>
+    <% if @core_generation.errors.any? %>
+      <div class="rounded-md bg-red-50 p-4">
+        <div class="flex">
+            <h3 class="text-sm font-medium text-red-800"><%= pluralize(@core_generation.errors.count, "error") %> prevented generation:</h3>
+             <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-red-700">
+                <% @core_generation.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-white shadow sm:rounded-lg border border-gray-200 p-6 space-y-6">
+        <div>
+            <%= form.label :seed, "Seed (optional)", class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-1">
+                <%= form.text_field :seed, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Leave blank for random" %>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+            <div>
+                <%= form.label :mat_cores_per_sublot, "Mat cores per sublot", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1">
+                    <%= form.number_field :mat_cores_per_sublot, min: 1, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                </div>
+            </div>
+
+            <div>
+                <%= form.label :joint_cores_per_joint, "Joint cores per joint", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1">
+                    <%= form.number_field :joint_cores_per_joint, min: 0, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">Between adjacent lanes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow sm:rounded-lg border border-gray-200 p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Generation Rules</h3>
+        <p class="text-sm text-gray-500 mb-6">Defaults match standard specifications.</p>
+        
+        <div class="space-y-6">
+            <div>
+                <%= form.label :rounding_increment_ft, "Rounding increment (ft)", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1">
+                    <%= form.number_field :rounding_increment_ft, step: 0.5, min: 0.5, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full max-w-xs sm:text-sm border-gray-300 rounded-md" %>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                <div>
+                    <%= form.label :mat_edge_buffer_ft, "Mat offset buffer (ft)", class: "block text-sm font-medium text-gray-700" %>
+                    <div class="mt-1">
+                        <%= form.number_field :mat_edge_buffer_ft, step: 0.5, min: 0, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    </div>
+                     <p class="mt-1 text-xs text-gray-500">From each lane edge</p>
+                </div>
+
+                <div>
+                    <%= form.label :lane_start_buffer_ft, "Lane start buffer (ft)", class: "block text-sm font-medium text-gray-700" %>
+                    <div class="mt-1">
+                        <%= form.number_field :lane_start_buffer_ft, step: 0.5, min: 0, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+                    </div>
+                     <p class="mt-1 text-xs text-gray-500">From start of each lane</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-end pt-5">
+        <%= link_to "Cancel", lot_path(@lot), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        <%= form.submit "Generate Locations", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

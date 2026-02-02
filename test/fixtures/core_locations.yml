@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  core_generation: one
+  lot: one
+  sublot: one
+  core_type: 1
+  lane: one
+  left_lane_id: 
+  right_lane_id: 
+  lane_index: 1
+  linear_in_sublot_ft: 9.99
+  station_in_lane_ft: 9.99
+  offset_in_lane_ft: 9.99
+  distance_from_lot_start_ft: 9.99
+  mark: MyString
+
+two:
+  core_generation: two
+  lot: two
+  sublot: two
+  core_type: 1
+  lane: two
+  left_lane_id: 
+  right_lane_id: 
+  lane_index: 1
+  linear_in_sublot_ft: 9.99
+  station_in_lane_ft: 9.99
+  offset_in_lane_ft: 9.99
+  distance_from_lot_start_ft: 9.99
+  mark: MyString
