@@ -27,4 +27,4 @@ services:
 
 databases:
   - name: asphalt-core-locator-db
-    plan: starter
+    plan: basic-256mb
