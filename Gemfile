@@ -68,3 +68,6 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
+
+# Excel exports (supports cell styling/colors)
+gem "caxlsx", "~> 4.0"

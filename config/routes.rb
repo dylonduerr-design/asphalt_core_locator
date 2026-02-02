@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resource :bulk_setup, only: [:new, :create]
     resources :core_generations, only: [:new, :create, :show] do
       get :export_csv, on: :member
+      get :export_xlsx, on: :member
       post :create_for_sublot, on: :collection
     end
   end

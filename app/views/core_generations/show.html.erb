@@ -10,11 +10,11 @@
     <div class="mt-4 flex md:mt-0 md:ml-4 space-x-3">
         <%= link_to "Back to Lot", lot_path(@lot), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none" %>
         <%= link_to "Generate Again", new_lot_core_generation_path(@lot), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none" %>
-        <%= link_to export_csv_lot_core_generation_path(@lot, @core_generation), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none" do %>
+        <%= link_to export_xlsx_lot_core_generation_path(@lot, @core_generation), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none" do %>
             <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            Export CSV
+            Export Excel
         <% end %>
     </div>
   </div>
@@ -26,7 +26,9 @@
             <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <%= link_to lot_core_generation_path(@lot, @core_generation, sort: @sort_by_sublot ? nil : 'sublot'), class: "inline-flex items-center hover:text-gray-700" do %>
-                        Mark
+                        <span class="<%= @sort_by_sublot ? 'text-gray-500' : 'text-indigo-600' %>">Mark</span>
+                        <span class="mx-0.5 text-gray-400">/</span>
+                        <span class="<%= @sort_by_sublot ? 'text-indigo-600' : 'text-gray-500' %>">Sublot</span>
                         <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <% if @sort_by_sublot %>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -111,29 +113,30 @@
                 </tr>
                 <!-- Random Numbers Row (hidden by default) -->
                 <tr id="random-row-<%= index %>" class="hidden bg-indigo-50 border-b border-indigo-100">
-                    <td colspan="2" class="px-6 py-2 text-xs text-indigo-600 font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                        </svg>
-                        Random Numbers
+                    <td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm text-indigo-700 font-medium align-middle">
+                        <span class="inline-flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                            </svg>
+                            <span>Random Numbers</span>
+                        </span>
                     </td>
-                    <td colspan="2"></td>
-                    <td colspan="2"></td>
-                    <td class="px-6 py-2 whitespace-nowrap text-xs text-indigo-700 font-mono">
+                    <td colspan="5" class="px-6 py-4 align-middle"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-700 font-mono align-middle">
                         <% if loc.station_random_number.present? %>
-                            <span class="bg-indigo-100 px-2 py-0.5 rounded"><%= number_with_precision(loc.station_random_number, precision: 4) %></span>
+                            <span class="bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded"><%= number_with_precision(loc.station_random_number, precision: 4) %></span>
                         <% else %>
                             <span class="text-gray-400 italic">N/A</span>
                         <% end %>
                     </td>
-                    <td class="px-6 py-2 whitespace-nowrap text-xs text-indigo-700 font-mono">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-700 font-mono align-middle">
                         <% if loc.offset_random_number.present? %>
-                            <span class="bg-indigo-100 px-2 py-0.5 rounded"><%= number_with_precision(loc.offset_random_number, precision: 4) %></span>
+                            <span class="bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded"><%= number_with_precision(loc.offset_random_number, precision: 4) %></span>
                         <% else %>
                             <span class="text-gray-400 italic">N/A</span>
                         <% end %>
                     </td>
-                    <td></td>
+                    <td class="px-6 py-4 align-middle"></td>
                 </tr>
             <% end %>
         </tbody>
