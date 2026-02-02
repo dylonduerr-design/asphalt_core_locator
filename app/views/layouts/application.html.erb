@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AsphaltCoreLocater</title>
+    <title>Asphalt Core Locator</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Generate random asphalt mat and joint core sample locations with per-lane geometry support">
+    
+    <%# PWA Meta Tags %>
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Core Locator">
+    <link rel="manifest" href="/manifest">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <%# Service Worker Registration %>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker', { scope: '/' })
+            .then((registration) => {
+              console.log('ServiceWorker registered with scope:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('ServiceWorker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </head>
 
   <body class="bg-gray-50 min-h-screen flex flex-col font-sans">

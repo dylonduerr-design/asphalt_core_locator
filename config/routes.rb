@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # PWA routes
+  get "manifest" => "pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
+  get "service-worker" => "pwa#service_worker", as: :pwa_service_worker
+
   resources :lanes
   resources :sublots do
     member do

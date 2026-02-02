@@ -87,3 +87,49 @@ Joints exist between each pair of adjacent lanes (1-2, 2-3, etc.). Joint length 
 ## License
 
 Private project.
+
+---
+
+## Progressive Web App (PWA)
+
+This application is installable as a Progressive Web App on desktop and mobile devices, providing an app-like experience with offline capabilities.
+
+### Installing the PWA
+
+#### Android / Chrome Desktop
+1. Visit the application in Chrome
+2. Look for the "Install" prompt in the address bar or the three-dot menu
+3. Tap "Install" to add the app to your home screen/desktop
+
+#### iOS (Safari)
+1. Visit the application in Safari
+2. Tap the Share button (box with arrow)
+3. Scroll down and tap "Add to Home Screen"
+4. Tap "Add" to confirm
+
+### iOS Limitations
+
+Due to Apple's restrictions on Progressive Web Apps, iOS users will experience some limitations compared to Android:
+
+| Feature | Android | iOS |
+|---------|---------|-----|
+| Install prompt | ✅ Automatic prompt | ❌ Manual "Add to Home Screen" required |
+| Push notifications | ✅ Supported | ⚠️ Limited (iOS 16.4+, requires user permission) |
+| Background sync | ✅ Full support | ❌ Not supported |
+| Persistent storage | ✅ Granted on install | ⚠️ May be cleared after 7 days of inactivity |
+| Service worker cache | ✅ Persistent | ⚠️ Limited to ~50MB, may be evicted |
+| Offline mode | ✅ Full support | ⚠️ Works but may be cleared by system |
+
+### PWA Features
+
+- **Offline viewing**: Previously loaded pages are cached for offline access
+- **Fast loading**: Static assets are cached for instant startup
+- **Network-first for data**: Lot, sublot, and core generation data always fetches fresh data when online
+- **Export support**: CSV and Excel exports work when online (not cached to ensure fresh data)
+
+### Updating the App
+
+The service worker automatically checks for updates. When a new version is available:
+- On Android: The app updates automatically on next launch
+- On iOS: Close and reopen the app to get the latest version
+
