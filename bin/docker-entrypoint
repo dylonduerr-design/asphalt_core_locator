@@ -4,11 +4,21 @@
 case "${1:-}" in
   ./bin/rails)
     if [ "${2:-}" = "server" ]; then
+      if [ -z "${DATABASE_URL:-}" ]; then
+        echo "ERROR: DATABASE_URL is not set. Attach a Postgres database in Render and ensure DATABASE_URL is configured for the service." >&2
+        exit 1
+      fi
+
       ./bin/rails db:prepare
     fi
     ;;
   bundle)
     if [ "${2:-}" = "exec" ] && [ "${3:-}" = "puma" ]; then
+      if [ -z "${DATABASE_URL:-}" ]; then
+        echo "ERROR: DATABASE_URL is not set. Attach a Postgres database in Render and ensure DATABASE_URL is configured for the service." >&2
+        exit 1
+      fi
+
       ./bin/rails db:prepare
     fi
     ;;
