@@ -77,7 +77,7 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900">Sublots & Lanes</h3>
         <div class="flex items-center gap-3">
             <% if @lot.sublots.any? %>
-                <%= link_to "Generate Core Locations", new_lot_core_generation_path(@lot), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" %>
+                <%= link_to "Generate All Core Locations", new_lot_core_generation_path(@lot), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" %>
                 <% if @lot.core_generations.any? %>
                     <%= link_to "View Last Generation", lot_core_generation_path(@lot, @lot.core_generations.order(created_at: :desc).first), class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
                 <% end %>
@@ -112,7 +112,7 @@
                             </span>
                         <% end %>
                         <% if sublot.lanes.any? %>
-                            <%= link_to "Generate Cores", new_lot_core_generation_path(@lot, sublot_id: sublot.id), class: "inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+                            <%= button_to "Generate Cores", create_for_sublot_lot_core_generations_path(@lot, sublot_id: sublot.id), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm #{sublot.locked_for_core_generation ? 'text-gray-400 bg-gray-300 cursor-not-allowed' : 'text-white bg-indigo-600 hover:bg-indigo-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500", disabled: sublot.locked_for_core_generation %>
                         <% end %>
                     </div>
                 </div>
