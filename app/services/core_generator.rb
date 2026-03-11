@@ -190,13 +190,13 @@ class CoreGenerator
 
   def get_next_astm_random
     # Use the seed to determine starting position in ASTM table
-    start_row = (generation.seed.to_i % 54) + 1
-    start_col = ((generation.seed.to_i / 54) % 20) + 1
+    start_row = (generation.seed.to_i % astm_row_count) + 1
+    start_col = ((generation.seed.to_i / astm_row_count) % astm_column_count) + 1
     
     # Calculate current position
-    total_offset = start_col - 1 + (start_row - 1) * 20 + @random_index
-    row = (total_offset / 20) % 54 + 1
-    col = (total_offset % 20) + 1
+    total_offset = start_col - 1 + (start_row - 1) * astm_column_count + @random_index
+    row = (total_offset / astm_column_count) % astm_row_count + 1
+    col = (total_offset % astm_column_count) + 1
     
     @random_index += 1
     
@@ -209,5 +209,13 @@ class CoreGenerator
       # Fallback to Ruby random if table not loaded
       Random.new(generation.seed.to_i + @random_index).rand
     end
+  end
+
+  def astm_row_count
+    @astm_row_count ||= AstmRandomNumber.maximum(:row) || 100
+  end
+
+  def astm_column_count
+    20
   end
 end
